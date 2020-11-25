@@ -11,7 +11,7 @@ const { Network } = Plugins;
 })
 export class Tab1Page {
 
-  message = 'Je suis connecté';
+  message: string;
 
   // constructor(private network: Network) {
   // }
@@ -26,14 +26,15 @@ export class Tab1Page {
   constructor() {
     Network.addListener('networkStatusChange', (status) => {
       console.log(status);
-      if (!status.connected) {
-        this.message = 'Vous êtes déconnecté';
-      } else { this.message = 'Je suis connecté'; }
+      this.message = status.connected ? 'Connecté' : 'Déconnecté';
     });
   }
 
   async start() {
     const status = await Network.getStatus();
+    if (status.connected) {
+      this.message = 'Connecté';
+    }
   }
 
 }
